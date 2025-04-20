@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+httpx
+beautifulsoup4
+redis
+prometheus-fastapi-instrumentator
+tenacity
+python-dotenv
+pandas
