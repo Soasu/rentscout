@@ -7,3 +7,5 @@ prometheus-fastapi-instrumentator
 tenacity
 python-dotenv
 pandas
+elasticsearch
+python-multipart
